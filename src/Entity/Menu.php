@@ -33,9 +33,6 @@ class Menu
     #[ORM\ManyToOne]
     private ?Category $category = null;
 
-    #[ORM\ManyToOne]
-    private ?Page $page = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $link = null;
 
@@ -133,17 +130,6 @@ class Menu
         return $this;
     }
 
-    public function getPage(): ?Page
-    {
-        return $this->page;
-    }
-
-    public function setPage(?Page $page): static
-    {
-        $this->page = $page;
-
-        return $this;
-    }
 
     public function getLink(): ?string
     {

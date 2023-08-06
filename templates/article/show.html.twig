@@ -5,9 +5,14 @@
 {% block body %}
         <div class= "container">
             <h1>{{ article.title }}</h1>
+            <h5> Ingrédients </h5>
             <hr>
-
-            {{ article.content|raw }}
+            <ul>
+                {% set elements = article.content|split(',') %}
+                {% for element in elements %}
+                <li>{{ element|trim|raw }}</li>
+                {% endfor %}
+            <ul>
         </div>
 
 {% endblock %}

@@ -1,18 +1,42 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ article.title }}{% endblock %}
+{% block title %}
+	{{ article.title }}
+{% endblock %}
 
 {% block body %}
-        <div class= "container">
-            <h1>{{ article.title }}</h1>
-            <h5> Ingrédients </h5>
-            <hr>
+	<div class="container">
+		<h1>{{ article.title }}</h1>
+		<h5>
+			Ingrédients
+		</h5>
+		<hr>
+        
             <ul>
                 {% set elements = article.content|split(',') %}
                 {% for element in elements %}
-                <li>{{ element|trim|raw }}</li>
+                    <li>{{ element|trim|raw }}</li>
                 {% endfor %}
-            <ul>
-        </div>
+            </ul>
+        
+    </div>
+
+    <div class="container">	
+    <hr>
+		<h5 class="comment-title d-flex mt-5">
+			<span id="comment-count">{{ article.comments|length }}
+				Commentaire(s)
+			</span>
+		</h5>
+		<div class="comment-area mb-5">
+			{{ form(commentForm, {'attr': {'class': 'comment-form' } })}}
+		</div>
+
+		<div class="comment-list">
+			{% for comment in article.comments %}
+				{% include 'comment/index.html.twig' with [comment] %}
+			{% endfor %}
+		</div>
+	</div>
 
 {% endblock %}

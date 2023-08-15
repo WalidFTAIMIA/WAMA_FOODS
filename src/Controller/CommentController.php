@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CommentController extends AbstractController
 {
     #[Route('/ajax/comments', name: 'comment_add')]
-    public function add(Request $request, ArticleRepository $articleRepo, CommentRepository $commentRepo , UserRepository $userRepo, EntityManagerInterface $em): Response
+    public function add(Request $request, ArticleRepository $articleRepo, CommentRepository $commentRepo, EntityManagerInterface $em, UserRepository $userRepo): Response
     {
         $commentData = $request->request->all('comment');
 

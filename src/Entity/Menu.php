@@ -1,40 +1,48 @@
 <?php
 
 namespace App\Entity;
-
 use App\Repository\MenuRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MenuRepository::class)]
 class Menu
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: 'integer')]
+    private $id;
 
-    #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    #[ORM\Column(type: 'string', length: 255)]
+    private $name;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $menuOrder = null;
+    #[Assert\PositiveOrZero]
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $menuOrder;
 
-    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'subMenus')]
-    private Collection $subMenus;
+    #[ORM\ManyToMany(targetEntity: self::class)]
+    private $subMenus;
 
-    #[ORM\Column]
-    private ?bool $isVisible = null;
+    #[ORM\Column(type: 'boolean')]
+    private $isVisible;
 
-    #[ORM\ManyToOne]
-    private ?Article $article = null;
+    #[ORM\ManyToOne(targetEntity: Article::class)]
+    #[Orm\JoinColumn(onDelete: 'CASCADE')]
+    private $article;
 
-    #[ORM\ManyToOne]
-    private ?Category $category = null;
+    #[ORM\ManyToOne(targetEntity: Category::class)]
+    #[Orm\JoinColumn(onDelete: 'CASCADE')]
+    private $category;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $link = null;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Orm\JoinColumn(onDelete: 'CASCADE')]
+    private $link;
+
+    #[ORM\ManyToOne(targetEntity: Page::class)]
+    #[Orm\JoinColumn(onDelete: 'CASCADE')]
+    private $page;
 
     public function __construct()
     {
@@ -51,7 +59,7 @@ class Menu
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(string $name): self
     {
         $this->name = $name;
 
@@ -63,9 +71,57 @@ class Menu
         return $this->menuOrder;
     }
 
-    public function setMenuOrder(?int $menuOrder): static
+    public function setMenuOrder(int $menuOrder): self
     {
         $this->menuOrder = $menuOrder;
+
+        return $this;
+    }
+
+    public function getLink(): ?string
+    {
+        return $this->link;
+    }
+
+    public function setLink(?string $link): self
+    {
+        $this->link = $link;
+
+        return $this;
+    }
+
+    public function getPage(): ?Page
+    {
+        return $this->page;
+    }
+
+    public function setPage(?Page $page): self
+    {
+        $this->page = $page;
+
+        return $this;
+    }
+
+    public function getArticle(): ?Article
+    {
+        return $this->article;
+    }
+
+    public function setArticle(?Article $article): self
+    {
+        $this->article = $article;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }
@@ -78,67 +134,35 @@ class Menu
         return $this->subMenus;
     }
 
-    public function addSubMenu(self $subMenu): static
+    public function addSubMenu(self $subMenu): self
     {
         if (!$this->subMenus->contains($subMenu)) {
-            $this->subMenus->add($subMenu);
+            $this->subMenus[] = $subMenu;
         }
 
         return $this;
     }
 
-    public function removeSubMenu(self $subMenu): static
+    public function removeSubMenu(self $subMenu): self
     {
         $this->subMenus->removeElement($subMenu);
 
         return $this;
     }
 
-    public function isIsVisible(): ?bool
+    public function __toString(): string
+    {
+        return $this->name;
+    }
+
+    public function getIsVisible(): ?bool
     {
         return $this->isVisible;
     }
 
-    public function setIsVisible(bool $isVisible): static
+    public function setIsVisible(bool $isVisible): self
     {
         $this->isVisible = $isVisible;
-
-        return $this;
-    }
-
-    public function getArticle(): ?Article
-    {
-        return $this->article;
-    }
-
-    public function setArticle(?Article $article): static
-    {
-        $this->article = $article;
-
-        return $this;
-    }
-
-    public function getCategory(): ?Category
-    {
-        return $this->category;
-    }
-
-    public function setCategory(?Category $category): static
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
-
-    public function getLink(): ?string
-    {
-        return $this->link;
-    }
-
-    public function setLink(?string $link): static
-    {
-        $this->link = $link;
 
         return $this;
     }

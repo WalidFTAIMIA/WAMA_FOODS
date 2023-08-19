@@ -22,7 +22,7 @@ class ArticleController extends AbstractController
         
         $commentForm = $this->createForm(CommentType::class, $comment);
 
-        return $this->renderform('article/show.html.twig', [
+        return $this->renderForm('article/show.html.twig', [
             'article' => $article,
             'comments' => $commentService->getPaginatedComments($article),
             'commentForm' => $commentForm

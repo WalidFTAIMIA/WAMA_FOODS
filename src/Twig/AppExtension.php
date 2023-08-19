@@ -2,6 +2,7 @@
 
 namespace App\Twig;
 use App\Entity\Menu;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Extension\AbstractExtension;
@@ -31,16 +32,18 @@ class AppExtension extends AbstractExtension
     public function getFunctions() 
     {
         return [
-            new TwigFunction('ea_index', [$this, 'getAdminUrl'])
+            new TwigFunction('ea_gen_url', [$this, 'getAdminUrl'])
         ];
     }
 
-    public function getAdminUrl(string $controller)
+    public function getAdminUrl(string $controller, string $action = Action::INDEX): string
     {
         return $this->adminUrlGenerator
-            ->setController(self::ADMIN_NAMESPACE . DIRECTORY_SEPARATOR . $controller)
+            ->setController(self::ADMIN_NAMESPACE . '\\' . $controller)
+            ->setAction($action)
             ->generateUrl();
     }
+    
     public function menuLink(Menu $menu): string
     {
         $article = $menu->getArticle();

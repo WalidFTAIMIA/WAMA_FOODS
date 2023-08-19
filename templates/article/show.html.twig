@@ -28,9 +28,12 @@
 				Commentaire(s)
 			</span>
 		</h5>
-		<div class="comment-area mb-5">
+		{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+			<div class="comment-area mb-5">
 			{{ form(commentForm, {'attr': {'class': 'comment-form' } })}}
-		</div>
+			</div>
+		{% endif %}
+		
 
 		<div class="comment-list">
 			{% for comment in article.comments %}

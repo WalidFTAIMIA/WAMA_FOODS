@@ -30,8 +30,8 @@ class ArticleRepository extends ServiceEntityRepository
 
         if ($category) {
             $qb->leftJoin('a.categories', 'c')
-                ->where($qb->expr()->eq('c.id', ':id'))
-                ->setParameter('id', $category->getId());
+                ->where($qb->expr()->eq('c.id', 'categoryId'))
+                ->setParameter('categoryId', $category->getId());
         }
 
         return $qb->getQuery();

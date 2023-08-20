@@ -15,17 +15,18 @@ class ArticleController extends AbstractController
     #[Route('/article/{slug}', name: 'article_show')]
     public function show(?Article $article, CommentService $commentService): Response
     {
-        if (!$article) {
-            return $this->redirectToRoute('/');
-        }
-        $comment = new Comment($article);
-        
-        $commentForm = $this->createForm(CommentType::class, $comment);
-
-        return $this->renderForm('article/show.html.twig', [
-            'article' => $article,
-            'comments' => $commentService->getPaginatedComments($article),
-            'commentForm' => $commentForm
-        ]);
+    if (!$article) {
+        return $this->redirectToRoute('/');
     }
+    $comment = new Comment($article);
+    
+    $commentForm = $this->createForm(CommentType::class, $comment);
+
+    return $this->render('article/show.html.twig', [
+        'article' => $article,
+        'comments' => $commentService->getPaginatedComments($article),
+        'commentForm' => $commentForm->createView() 
+    ]);
+    }
+
 }

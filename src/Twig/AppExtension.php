@@ -24,8 +24,8 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFilter('menuLink', [$this, 'menuLink']),
-            new TwigFilter('categoriesToString', [$this, 'categoriesToString']),
-            new TwigFilter('isCommentAuthor', [$this, 'isCommentAuthor']),
+            // new TwigFilter('categoriesToString', [$this, 'categoriesToString']),
+            // new TwigFilter('isCommentAuthor', [$this, 'isCommentAuthor']),
         ];
     }
 

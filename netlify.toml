@@ -1,0 +1,6 @@
+[build]
+  command = "composer install && php bin/console doctrine:migrations:migrate && yarn install && yarn build"
+  publish = "public/"
+
+[context.production]
+  command = "composer install --no-dev && php bin/console doctrine:migrations:migrate --no-interaction && yarn install && yarn build"

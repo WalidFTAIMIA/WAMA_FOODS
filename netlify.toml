@@ -1,5 +1,5 @@
 [build]
-  command = "composer install && php bin/console doctrine:migrations:migrate && yarn install && yarn build"
+  command = "composer install && php bin/console doctrine:migrations:migrate && npm install && npm build"
   publish = "public/"
 
 [context.production]
